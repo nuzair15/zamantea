@@ -1,0 +1,33 @@
+# Local browser verification captures
+Template/*-check*.png
+
+# Original template documentation and unused pages/assets
+Documentation/
+Help.htm
+Template/*.html
+!Template/index.html
+!Template/menu.html
+!Template/about.html
+!Template/contacts.html
+!Template/checkout.html
+Template/*.php
+Template/css/*
+!Template/css/zaman.css
+Template/js/*
+!Template/js/zaman.js
+Template/fonts/*
+!Template/fonts/Montserrat-Regular.woff2
+!Template/fonts/Montserrat-SemiBold.woff2
+!Template/fonts/Raleway-Bold.woff2
+Template/img/*
+!Template/img/zaman/
+!Template/img/zaman/**
+Template/scss/
+Template/sourcemaps/
+Template/svg/
+Template/tests/
+
+# Common local files
+.DS_Store
+Thumbs.db
+*.log
