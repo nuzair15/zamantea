@@ -14,11 +14,16 @@ export function openDb(path=process.env.DB_PATH||'data/zaman.sqlite'){
  CREATE TABLE IF NOT EXISTS webhook_events(id TEXT PRIMARY KEY,created_at TEXT NOT NULL);
  `);
  const defaults=[
- {id:'ginger',name:'Rich Ginger Tea',description:'A lively, ginger-led cup with aromatic spice and a satisfyingly warm finish.',notes:'SPICY · WARMING · COMFORTING',color:'#f2c0a1',image:'img/zaman/ginger-label.jpeg',shipping:4000,active:true},
- {id:'cardamom',name:'Rich Cardamom Tea',description:'Fragrant cardamom meets a smooth, warming cup. A little everyday indulgence.',notes:'AROMATIC · WARM · REFRESHING',color:'#dce2a7',image:'img/zaman/cardamom-label.jpeg',shipping:4000,active:true},
- {id:'darjeeling',name:'Classic Darjeeling Tea',description:'Rich, smooth and familiar. An unhurried cup for those who love a classic.',notes:'RICH · SMOOTH · TIMELESS',color:'#c4dce6',image:'img/zaman/darjeeling-label.jpeg',shipping:4000,active:true}
+ {id:'ginger',name:'Rich Ginger Tea',description:'A lively, ginger-led cup with aromatic spice and a satisfyingly warm finish.',notes:'SPICY · WARMING · COMFORTING',color:'#f2c0a1',image:'img/zaman/ginger-pouch-v3.png',shipping:4000,active:true},
+ {id:'cardamom',name:'Rich Cardamom Tea',description:'Fragrant cardamom meets a smooth, warming cup. A little everyday indulgence.',notes:'AROMATIC · WARM · REFRESHING',color:'#dce2a7',image:'img/zaman/cardamom-pouch-v3.png',shipping:4000,active:true},
+ {id:'darjeeling',name:'Classic Darjeeling Tea',description:'Rich, smooth and familiar. An unhurried cup for those who love a classic.',notes:'RICH · SMOOTH · TIMELESS',color:'#c4dce6',image:'img/zaman/darjeeling-pouch-v3.png',shipping:4000,active:true}
  ];
- for(const p of defaults)db.prepare('INSERT OR IGNORE INTO products VALUES (?,?)').run(p.id,JSON.stringify({...p,variants:[{size:'75',price:9900},{size:'150',price:17900},{size:'300',price:39900}]}));
+ const legacyImages={ginger:'img/zaman/ginger-label.jpeg',cardamom:'img/zaman/cardamom-label.jpeg',darjeeling:'img/zaman/darjeeling-label.jpeg'};
+ for(const p of defaults){
+  db.prepare('INSERT OR IGNORE INTO products VALUES (?,?)').run(p.id,JSON.stringify({...p,variants:[{size:'75',price:9900},{size:'150',price:17900},{size:'300',price:39900}]}));
+  const row=db.prepare('SELECT data FROM products WHERE id=?').get(p.id),current=JSON.parse(row.data);
+  if(current.image===legacyImages[p.id]){current.image=p.image;db.prepare('UPDATE products SET data=? WHERE id=?').run(JSON.stringify(current),p.id);}
+ }
  db.prepare('INSERT OR IGNORE INTO settings VALUES (1,?)').run(JSON.stringify({shippingConfigured:false,freeShippingThreshold:59900,codEnabled:true,whatsappNumber:'919663401610'}));
  return db;
 }

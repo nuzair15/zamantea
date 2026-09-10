@@ -7,15 +7,15 @@
     const PRODUCTS = {
         ginger: {
             name: "Rich Ginger Tea",
-            image: "img/zaman/ginger-label.jpeg"
+            image: "img/zaman/ginger-pouch-v3.png"
         },
         cardamom: {
             name: "Rich Cardamom Tea",
-            image: "img/zaman/cardamom-label.jpeg"
+            image: "img/zaman/cardamom-pouch-v3.png"
         },
         darjeeling: {
             name: "Classic Darjeeling Tea",
-            image: "img/zaman/darjeeling-label.jpeg"
+            image: "img/zaman/darjeeling-pouch-v3.png"
         }
     };
 
