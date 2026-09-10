@@ -1,0 +1,23 @@
+[Unit]
+Description=Zaman Tea store
+After=network.target
+
+[Service]
+Type=simple
+User=zaman
+Group=zaman
+WorkingDirectory=/opt/zaman
+EnvironmentFile=/etc/zaman.env
+ExecStart=/usr/bin/node /opt/zaman/server/index.mjs
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=15
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/opt/zaman/data /opt/zaman/Template/img/zaman
+
+[Install]
+WantedBy=multi-user.target

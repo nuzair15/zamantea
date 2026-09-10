@@ -1,0 +1,6 @@
+{
+  "name": "zaman-tea", "version": "2.0.0", "private": true, "type": "module",
+  "description": "Zaman Tea storefront, checkout and order management for EC2",
+  "engines": {"node": ">=24.0.0"},
+  "scripts": {"start": "node --env-file-if-exists=.env server/index.mjs", "admin:setup": "node --env-file-if-exists=.env server/setup-admin.mjs", "test": "node --test server/commerce.test.mjs", "check": "node scripts/check.mjs"}
+}
