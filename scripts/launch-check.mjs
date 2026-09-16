@@ -1,0 +1,12 @@
+import {existsSync} from 'node:fs';
+import {DatabaseSync} from 'node:sqlite';
+import {readiness} from '../server/operations.mjs';
+import {getSettings} from '../server/db.mjs';
+const path=process.env.DB_PATH||'data/zaman.sqlite';if(!existsSync(path))throw Error('Store database is missing.');
+const db=new DatabaseSync(path,{readOnly:true}),issues=readiness(db),s=getSettings(db);
+if(!s.shippingConfigured)issues.push('Checkout is paused. Approve shipping charges in Store settings.');
+if(process.env.NODE_ENV!=='production')issues.push('Set NODE_ENV=production on the deployed server.');
+if(!/^https:\/\//.test(process.env.APP_ORIGIN||''))issues.push('Set APP_ORIGIN to your HTTPS domain.');
+if(!(process.env.RAZORPAY_KEY_ID&&process.env.RAZORPAY_KEY_SECRET&&process.env.RAZORPAY_WEBHOOK_SECRET))issues.push('Online payments are not configured (COD/WhatsApp can operate without them).');
+if(!(process.env.SMTP_HOST&&process.env.MAIL_FROM))issues.push('Email notifications need SMTP_HOST and MAIL_FROM.');
+console.log(issues.length?issues.map(i=>'• '+i).join('\n'):'Configuration checks passed. Verify live payments, email, HTTPS and off-server backup restoration before launch.');db.close();process.exitCode=issues.length?1:0;

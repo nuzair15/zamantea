@@ -6,3 +6,7 @@ backups/
 node_modules/
 *.log
 .sites-runtime/
+
+.preview/
+playwright-report/
+test-results/

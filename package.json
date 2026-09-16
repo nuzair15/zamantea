@@ -1,6 +1,27 @@
 {
-  "name": "zaman-tea", "version": "2.0.0", "private": true, "type": "module",
+  "name": "zaman-tea",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
   "description": "Zaman Tea storefront, checkout and order management for EC2",
-  "engines": {"node": ">=24.0.0"},
-  "scripts": {"start": "node --env-file-if-exists=.env server/index.mjs", "admin:setup": "node --env-file-if-exists=.env server/setup-admin.mjs", "test": "node --test server/commerce.test.mjs", "check": "node scripts/check.mjs"}
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server/index.mjs",
+    "admin:setup": "node --env-file-if-exists=.env server/setup-admin.mjs",
+    "test": "node --test server/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "test:browser": "node scripts/browser-test.mjs",
+    "backup": "node --env-file-if-exists=.env scripts/backup.mjs",
+    "launch:check": "node --env-file-if-exists=.env scripts/launch-check.mjs"
+  },
+  "dependencies": {
+    "nodemailer": "^10.0.10"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
+    "sharp": "^0.35.4"
+  }
 }
