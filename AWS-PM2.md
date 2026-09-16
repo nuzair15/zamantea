@@ -48,7 +48,7 @@ Use this baseline after you purchase a domain:
 NODE_ENV=production
 HOST=127.0.0.1
 PORT=3000
-APP_ORIGIN=https://YOUR-DOMAIN
+APP_ORIGIN=https://zamantea.shop
 DB_PATH=/opt/zaman/data/zaman.sqlite
 TRUST_PROXY=1
 
@@ -119,25 +119,25 @@ pm2 save
 
 ## 6. Configure Nginx and HTTPS
 
-First replace `tea.example.com` in the supplied config with your real domain:
+The supplied Nginx configuration already uses `zamantea.shop` as the canonical domain and redirects `www.zamantea.shop` to it:
 
 ```bash
 cd /opt/zaman
-sed "s/tea\.example\.com/YOUR-DOMAIN/g" deploy/nginx.conf | sudo tee /etc/nginx/sites-available/zaman >/dev/null
+sudo cp deploy/nginx.conf /etc/nginx/sites-available/zaman
 sudo ln -s /etc/nginx/sites-available/zaman /etc/nginx/sites-enabled/zaman
 sudo rm -f /etc/nginx/sites-enabled/default
 sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-Point the domain's DNS A record at the Elastic IP, wait for DNS to resolve, then enable HTTPS:
+At your domain registrar, point the `@` A record to the EC2 Elastic IP. Point `www` to the same IP with an A record, or use a CNAME from `www` to `zamantea.shop`. Wait for both names to resolve, then enable HTTPS:
 
 ```bash
-sudo certbot --nginx -d YOUR-DOMAIN
+sudo certbot --nginx -d zamantea.shop -d www.zamantea.shop
 sudo certbot renew --dry-run
 ```
 
-If you also use `www`, include `-d www.YOUR-DOMAIN` and choose one canonical hostname. `APP_ORIGIN` must exactly match the HTTPS address customers use, with no trailing slash. After changing `.env`, restart with:
+Use `https://zamantea.shop` as the canonical address. `APP_ORIGIN` must match it exactly, with no trailing slash. After changing `.env`, restart with:
 
 ```bash
 cd /opt/zaman
@@ -147,7 +147,7 @@ pm2 save
 
 ## 7. Finish store setup
 
-Visit `https://YOUR-DOMAIN/admin.html`, then:
+Visit `https://zamantea.shop/admin.html`, then:
 
 1. Enter stock for every pack size.
 2. Confirm delivery charges, free-delivery threshold and optional COD fee.

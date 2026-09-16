@@ -67,7 +67,7 @@ Unpaid COD orders can be cancelled before delivery. Stock reservations, guarded 
 
 1. Create/activate your Razorpay merchant account and configure **automatic payment capture** in its dashboard.
 2. Put `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` and a separately chosen `RAZORPAY_WEBHOOK_SECRET` in the server environment. Start with test-mode keys. Never add secrets to files under `Template/`.
-3. Configure a Razorpay webhook for `https://YOUR-DOMAIN/api/payments/webhook`, using the same webhook secret, and subscribe to **payment.captured**, **refund.created**, **refund.processed**, and **refund.failed**.
+3. Configure a Razorpay webhook for `https://zamantea.shop/api/payments/webhook`, using the same webhook secret, and subscribe to **payment.captured**, **refund.created**, **refund.processed**, and **refund.failed**.
 4. Restart the application. Online payment only appears as available when all three values are present.
 5. Perform an actual Razorpay test checkout. Confirm the order becomes paid/confirmed, confirm webhook deliveries succeed, test cancellation/retry, and test closing the browser after payment. The included automated tests simulate gateway responses; they do not replace this merchant-account test.
 6. Switch to live keys and configure a live-mode webhook before accepting real payments. Confirm the account is activated and your intended payment methods are enabled.

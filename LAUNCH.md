@@ -21,7 +21,7 @@ No domain, hosting access or Razorpay account was supplied, so nothing has been 
 
 Purchase your chosen domain and provision persistent Linux hosting. For EC2, use one PM2 application process and a persistent EBS volume. Install Node 24+, PM2, Nginx and your certificate tooling. Follow the copy-paste commands in `AWS-PM2.md`. Run `npm ci --omit=dev` before starting the process. Do not expose port 3000 publicly.
 
-Set the real domain in `deploy/nginx.conf` and `APP_ORIGIN=https://YOUR-DOMAIN` in `/etc/zaman.env`; set `NODE_ENV=production`, `TRUST_PROXY=1` and the persistent `DB_PATH`. Configure your TLS certificate, HTTP-to-HTTPS redirect and renewal. Redirect any alternate domains to APP_ORIGIN. Metadata, canonical links, sitemap and robots output use APP_ORIGIN.
+The repository is configured for `zamantea.shop`. Set `APP_ORIGIN=https://zamantea.shop` in `/opt/zaman/.env`; set `NODE_ENV=production`, `TRUST_PROXY=1` and the persistent `DB_PATH`. Configure the TLS certificate and renewal. `www.zamantea.shop` redirects to the canonical domain. Metadata, canonical links, sitemap and robots output use APP_ORIGIN.
 
 Transfer the configured database and product images using a verified backup, keeping the credentials file private. Alternatively, on a fresh installation run `node --env-file=/etc/zaman.env scripts/setup-store.mjs` from `/opt/zaman` once, then complete stock/settings again. That script applies the saved business profile and pauses checkout; do not run it routinely on an operating store.
 
@@ -29,7 +29,7 @@ Transfer the configured database and product images using a verified backup, kee
 
 COD and WhatsApp can be used without Razorpay after store setup. Online payment remains disabled until credentials are configured.
 
-Create and activate your Razorpay account. Configure automatic capture, start with test keys, and add key ID, key secret and webhook secret only to the server environment. Subscribe the endpoint `https://YOUR-DOMAIN/api/payments/webhook` to `payment.captured`, `refund.created`, `refund.processed`, and `refund.failed`. Test success, failure, dismiss/retry, interrupted callbacks and dashboard refunds before switching to live keys/webhooks. No real merchant payment has been tested here.
+Create and activate your Razorpay account. Configure automatic capture, start with test keys, and add key ID, key secret and webhook secret only to the server environment. Subscribe the endpoint `https://zamantea.shop/api/payments/webhook` to `payment.captured`, `refund.created`, `refund.processed`, and `refund.failed`. Test success, failure, dismiss/retry, interrupted callbacks and dashboard refunds before switching to live keys/webhooks. No real merchant payment has been tested here.
 
 Issue online refunds in the Razorpay dashboard. Signed webhooks synchronize partial/full refunds, and **Synchronize Razorpay refunds** in order management can recover missed events. Stock is not automatically increased after a refund: use **Return received packs to stock** only when physically appropriate. Unshipped COD cancellation restores its reservation automatically; shipped cancellation needs explicit restocking. Refunds for collected COD payments still require a manual payment and accounting process.
 
